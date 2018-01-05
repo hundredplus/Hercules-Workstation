@@ -16,7 +16,15 @@ namespace Hercules_Workstation
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HerculesWorkstation());
+
+            Hercules_Workstation_Authentication loginForm = new Hercules_Workstation_Authentication();
+            Application.Run(loginForm);
+
+            if (loginForm.loginSuccessful)
+            {
+                Application.Run(new HerculesWorkstation());
+            }
+            
         }
     }
 }

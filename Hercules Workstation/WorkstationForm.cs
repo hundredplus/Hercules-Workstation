@@ -15,8 +15,9 @@ namespace Hercules_Workstation
     {
         String prodCode = null;
         bool hasJob = false;
-        int myLocation = 100;
         bool cancelRequest = false;
+
+        Station thisStation = new Station();
 
         public HerculesWorkstation()
         {
@@ -26,6 +27,44 @@ namespace Hercules_Workstation
 
         private void HerculesWorkstation_Load(object sender, EventArgs e)
         {
+        
+            try
+            {
+                //Load station config
+                string[] lines = System.IO.File.ReadAllLines(@".\station.txt");
+                String stationNo = lines[0].Trim();
+                Console.WriteLine("Station=" + stationNo);
+
+                DBConnection dbConn = new DBConnection();
+                DataTable  table = dbConn.getStationByNumber(stationNo);
+                //Select JOIN
+                
+                if (table.Rows.Count > 0)
+                {
+                    thisStation.Number = stationNo;
+                    thisStation.Location_number = int.Parse(table.Rows[0]["location_number"].ToString());
+                    thisStation.Process_number = int.Parse(table.Rows[0]["process_number"].ToString());
+
+                    infoTxt.AppendText("Station: \t" + thisStation.Number + "\n");
+                    infoTxt.AppendText("Location: \t" + thisStation.Location_number + "\n");
+                    infoTxt.AppendText("Process: \t" + thisStation.Process_number + "\n");
+                }
+                else
+                {
+                    MessageBox.Show("Missing/wrong config file. Program will close.");
+                    this.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Cannot open config file.");
+                Console.WriteLine(ex.ToString());
+            }
+            
+
+
+
             requestBtn.Enabled = true;
             statusLbl.Text = "Click REQUEST for a new PBU";
         }
@@ -86,12 +125,23 @@ namespace Hercules_Workstation
             {
                 //Keep looking for job in view station_work_view
                 DBConnection dbConn = new DBConnection();
-                DataTable table = dbConn.getWorkstationView(myLocation);
+                DataTable table = dbConn.getWorkstationView(thisStation.Location_number);
+
+                //MessageBox.Show(new Form() { TopMost = true }, "I'm still on top, YEAH");
 
                 if (table.Rows.Count > 0)
                 {
                     prodCode = table.Rows[0]["production_code"].ToString();
                     MessageBox.Show("A new PBU has arrived: " + prodCode);
+                    //MessageBox.Show(new Form(){TopMost = true},"I'm still on top, YEAH");
+
+
+                    DataTable prodTable = dbConn.getProduction(prodCode);
+                    if (prodTable.Rows.Count > 0)
+                    {
+                        //Select JOIN
+                    }
+
 
                     cancelBtn.Invoke((Action)delegate
                     {
@@ -103,13 +153,16 @@ namespace Hercules_Workstation
                         startBtn.Enabled = true;
                     });
 
-                    hasJob = true;
+                    
                     statusLbl.Invoke((Action)delegate
                     {
                         statusLbl.Text = "Click START to work on PBU " + prodCode;
                     });
 
+                    hasJob = true;
+
                 }
+                
 
                 Thread.Sleep(5000);
             }

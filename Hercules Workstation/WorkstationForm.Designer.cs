@@ -33,6 +33,8 @@
             this.finishBtn = new System.Windows.Forms.Button();
             this.requestBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
+            this.infoTxt = new System.Windows.Forms.TextBox();
+            this.prodInfoTxt = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // statusLbl
@@ -94,17 +96,40 @@
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
+            // infoTxt
+            // 
+            this.infoTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.infoTxt.Location = new System.Drawing.Point(15, 43);
+            this.infoTxt.Multiline = true;
+            this.infoTxt.Name = "infoTxt";
+            this.infoTxt.ReadOnly = true;
+            this.infoTxt.Size = new System.Drawing.Size(256, 205);
+            this.infoTxt.TabIndex = 6;
+            // 
+            // prodInfoTxt
+            // 
+            this.prodInfoTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.prodInfoTxt.Location = new System.Drawing.Point(293, 43);
+            this.prodInfoTxt.Multiline = true;
+            this.prodInfoTxt.Name = "prodInfoTxt";
+            this.prodInfoTxt.ReadOnly = true;
+            this.prodInfoTxt.Size = new System.Drawing.Size(243, 205);
+            this.prodInfoTxt.TabIndex = 7;
+            // 
             // HerculesWorkstation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(548, 429);
+            this.Controls.Add(this.prodInfoTxt);
+            this.Controls.Add(this.infoTxt);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.requestBtn);
             this.Controls.Add(this.finishBtn);
             this.Controls.Add(this.startBtn);
             this.Controls.Add(this.statusLbl);
             this.Name = "HerculesWorkstation";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hercules Workstation";
             this.Load += new System.EventHandler(this.HerculesWorkstation_Load);
             this.ResumeLayout(false);
@@ -118,6 +143,8 @@
         private System.Windows.Forms.Button finishBtn;
         private System.Windows.Forms.Button requestBtn;
         private System.Windows.Forms.Button cancelBtn;
+        private System.Windows.Forms.TextBox infoTxt;
+        private System.Windows.Forms.TextBox prodInfoTxt;
     }
 }
 
